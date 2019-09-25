@@ -47,9 +47,9 @@ exports.createPlan = (req, res, next) => {
             } else {
                 connection.query("insert into plans set ?", post, (err, results) => {
                     if (err) return next(err)
-                    // res.send({ status: 'ok', results })
-                    req.params.id = body.planId;
-                    module.exports.findPlanById(req, res, next);
+                    res.send({ status: 'ok', results })
+                    // req.params.id = body.planId;
+                    // module.exports.findPlanById(req, res, next);
                 })
             }
         })

@@ -2,7 +2,13 @@ exports.findReqById = (req, res, next) => {
     var id = parseInt(req.params.id)
     req.getConnection((err, connection) => {
         if (err) return next(err)
-        var sql = "select * from requirements where requirement_id = ? ";
+        // var sql = "select * from requirements where requirement_id = ? ";
+        var sql = `SELECT req.requirement_id,
+IF(req.req_plantype = 'ในแผน',pl.plan_name,req.requirement_name) AS requirement_name,
+req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.boqfile
+FROM requirements req
+LEFT JOIN plans pl ON req.requirement_name = pl.plan_id 
+WHERE req.requirement_id = ?`;
         connection.query(sql, [id], (err, results) => {
             if (err) return next(err)
             res.send(results[0])
@@ -53,7 +59,7 @@ exports.findAll = (req, res, next) => {
                     if (err) return next(err)
                     var result = {
                         results: results,
-                        total: results.length > 0 ? results.length : 0,
+                        total: resu.length > 0 ? resu.length : 0,
                         total_page: Math.ceil((resu.length / param.limit))
                     }
                     res.send(result)
@@ -104,6 +110,9 @@ exports.createReq = (req, res, next) => {
         money_source: body.money_source ? body.money_source : null,
         spec_file: body.spec_file ? body.spec_file : null,
         plan_file: body.plan_file ? body.plan_file : null,
+        catalog_file: body.catalog ? body.catalog : null,
+        boqfile: body.boqfile ? body.boqfile : null,
+        created: new Date()
     }
     req.getConnection(function (err, connection) {
         connection.query("SELECT requirement_code FROM requirements  WHERE requirement_code= ?", [post.requirement_code], function (err, results) {
@@ -115,7 +124,7 @@ exports.createReq = (req, res, next) => {
             } else {
                 connection.query("insert into requirements set ?", post, (err, results) => {
                     if (err) return next(err)
-                    res.send({ status: 'ok', results })
+                    res.send({ status: 200, results })
                     // req.params.id = body.requirement_id;
                     // module.exports.findPlanById(req, res, next);
 

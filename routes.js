@@ -15,7 +15,7 @@ const Schedule = require('./controllers/Schedule/Schedule')
 const Leave = require('./controllers/Leave/LeaveForm')
 const requirement = require('./controllers/requirement')
 const update = require('./controllers/update')
-
+const upload = require('./controllers/upload')
 module.exports = function (app) {
     app.get('/', function (req, res) {
         res.send("<h1 style='text-align:center;margin-top:150px; '>PSoffice Api</h1>")
@@ -60,4 +60,6 @@ module.exports = function (app) {
     app.put('/api/v1/requirement/updatestatus/:id', update.updateStatus)
     app.put('/api/v1/requirement/updatemoney/:id', update.updateMoney)
     app.put('/api/v1/requirement/updatestock/:id', update.updateStock)
+
+    // app.post('/upload', upload.upload)
 }
