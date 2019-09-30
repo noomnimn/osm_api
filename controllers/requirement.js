@@ -5,7 +5,7 @@ exports.findReqById = (req, res, next) => {
         // var sql = "select * from requirements where requirement_id = ? ";
         var sql = `SELECT req.requirement_id,
 IF(req.req_plantype = 'ในแผน',pl.plan_name,req.requirement_name) AS requirement_name,
-req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.boqfile
+req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.boqfile,req.catalog_file
 FROM requirements req
 LEFT JOIN plans pl ON req.requirement_name = pl.plan_id 
 WHERE req.requirement_id = ?`;
