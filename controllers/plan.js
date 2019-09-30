@@ -35,7 +35,8 @@ exports.createPlan = (req, res, next) => {
         money_source: body.money_source ? body.money_source : null,
         unit: body.unit ? body.unit : null,
         req_type: body.req_type ? body.req_type : null,
-        replace_id: body.replace_id ? body.replace_id : null
+        replace_id: body.replace_id ? body.replace_id : null,
+        status: body.status ? body.status : null,
     }
     req.getConnection(function (err, connection) {
         connection.query("SELECT plan_code FROM plans  WHERE plan_code= ?", [post.plan_code], function (err, results) {
@@ -82,7 +83,8 @@ exports.updatePlan = (req, res, next) => {
         money_source: body.money_source ? body.money_source : null,
         unit: body.unit ? body.unit : null,
         req_type: body.req_type ? body.req_type : null,
-        replace_id: body.replace_id ? body.replace_id : null
+        replace_id: body.replace_id ? body.replace_id : null,
+        status: body.status ? body.status : null
 
     }
     req.getConnection(function (err, connection) {
