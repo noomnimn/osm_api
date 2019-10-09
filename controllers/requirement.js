@@ -5,7 +5,7 @@ exports.findReqById = (req, res, next) => {
         // var sql = "select * from requirements where requirement_id = ? ";
         var sql = `SELECT req.requirement_id,
 IF(req.req_plantype = 'ในแผน',pl.plan_name,req.requirement_name) AS requirement_name,
-req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.boqfile,req.catalog_file
+req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.boqfile,req.catalog_file,req.date_plan,req.date_dt,req.date_st
 FROM requirements req
 LEFT JOIN plans pl ON req.requirement_name = pl.plan_id 
 WHERE req.requirement_id = ?`;
@@ -22,9 +22,9 @@ exports.findAll = (req, res, next) => {
         if (err) return next(err)
         var sql = "SELECT req.requirement_id,"
             + "IF(req.req_plantype = 'ในแผน',pl.plan_name,req.requirement_name) AS requirement_name,"
-            + "req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id "
+            + "req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.date_plan,req.date_dt,req.date_st "
             + "FROM requirements req "
-            + "LEFT JOIN plans pl ON req.requirement_name = pl.plan_id ";
+            + "LEFT JOIN plans pl ON req.requirement_name = pl.plan_id "; // plan_id
 
 
         if (param.text != 'undefined' && param.fields != 'undefined') {
@@ -112,7 +112,10 @@ exports.createReq = (req, res, next) => {
         plan_file: body.plan_file ? body.plan_file : null,
         catalog_file: body.catalog ? body.catalog : null,
         boqfile: body.boqfile ? body.boqfile : null,
-        created: new Date()
+        created: new Date(),
+        date_plan: body.date_plan ? body.date_plan : null,
+        date_dt: body.date_dt ? body.date_dt : null,
+        date_st: body.date_st ? body.date_st : null,
     }
     req.getConnection(function (err, connection) {
         connection.query("SELECT requirement_code FROM requirements  WHERE requirement_code= ?", [post.requirement_code], function (err, results) {
@@ -181,6 +184,9 @@ exports.updateReq = (req, res, next) => {
         money_source: body.money_source ? body.money_source : null,
         spec_file: body.spec_file ? body.spec_file : null,
         plan_file: body.plan_file ? body.plan_file : null,
+        date_plan: body.date_plan ? body.date_plan : null,
+        date_dt: body.date_dt ? body.date_dt : null,
+        date_st: body.date_st ? body.date_st : null,
 
     }
     req.getConnection(function (err, connection) {

@@ -3,6 +3,9 @@ exports.updateStatus = (req, res, next) => {
     var { body } = req
     var post = {
         status: body.status ? body.status : null,
+        date_plan: body.date_plan ? body.date_plan : null,
+        date_dt: body.date_dt ? body.date_dt : null,
+        date_st: body.date_st ? body.date_st : null,
     }
     req.getConnection(function (err, connection) {
         connection.query("update requirements set ? where requirement_id =?", [post, id], function (err, results) {
