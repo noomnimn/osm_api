@@ -10,3 +10,14 @@ exports.findAll = (req, res, next) => {
     })
 }
 
+exports.findDeptList = (req, res, next) => {
+    req.getConnection((err, connection) => {
+        if (err) return next(err)
+        var sql = "select * from department ORDER BY name";
+        connection.query(sql, (err, results) => {
+            if (err) return next(err)
+            res.send(results)
+        })
+    })
+}
+

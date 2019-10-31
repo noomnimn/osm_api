@@ -135,15 +135,15 @@ exports.delete = (req, res, next) => {
 
 exports.hashPassword = (req, res, next) => {
     req.getConnection(function (err, connection) {
-        connection.query("SELECT id,password FROM user WHERE id NOT IN (5,83)", function (err, results) {
+        connection.query("SELECT user_id,password FROM users WHERE LENGTH(password) < 60", function (err, results) {
             if (err) return next(err)
             results.forEach(element => {
                 bcrypt.hash(element.password, 10, function (err, hash) {
                     if (err) return next(err)
-                    connection.query("UPDATE user SET password = ? WHERE id = ?", [hash, element.id], (err, results) => {
+                    connection.query("UPDATE users SET password = ? WHERE user_id = ?", [hash, element.user_id], (err, results) => {
                         console.log(results)
                         if (err) return next(err)
-                        // res.send({ status: 'ok', results })
+                        res.send({ status: 'ok', results })
                     })
                 });
             });

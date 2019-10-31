@@ -18,25 +18,24 @@ WHERE req.requirement_id = ?`;
 
 exports.findAll = (req, res, next) => {
     var param = req.params;
+    console.log(param);
     req.getConnection((err, connection) => {
         if (err) return next(err)
         var sql = "SELECT req.requirement_id,"
             + "IF(req.req_plantype = 'ในแผน',pl.plan_name,req.requirement_name) AS requirement_name,"
             + "req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.date_plan,req.date_dt,req.date_st "
             + "FROM requirements req "
-            + "LEFT JOIN plans pl ON req.requirement_name = pl.plan_id "; // plan_id
+            + "LEFT JOIN plans pl ON req.requirement_name = pl.plan_id ";
 
 
         if (param.text != 'undefined' && param.fields != 'undefined') {
-            sql += "WHERE req.{fields} LIKE '%{text}%' ";
-            sql = sql.replace('{fields}', param.fields);
+            sql += "WHERE pl.plan_name LIKE '%{text}%' OR req.requirement_name LIKE '%{text1}%' OR req.department2 LIKE '%{text2}%' OR req.req_plantype LIKE '%{text3}%' OR req.status LIKE '%{text4}%'";
             sql = sql.replace('{text}', param.text);
+            sql = sql.replace('{text1}', param.text);
+            sql = sql.replace('{text2}', param.text);
+            sql = sql.replace('{text3}', param.text);
+            sql = sql.replace('{text4}', param.text);
         }
-
-        // if (param.sort_by != 'undefined') {
-        //     sql += "ORDER BY {sort} ";
-        //     sql = sql.replace('{sort}', param.sort_by);
-        // }
 
         sql += "ORDER BY req.requirement_id DESC LIMIT {limit} OFFSET {offset}";
         sql = sql.replace('{limit}', param.limit);
@@ -47,12 +46,19 @@ exports.findAll = (req, res, next) => {
             if (err) return next(err)
             if (results.length > 0) {
 
-                var count = "SELECT * FROM requirements ";
+                var count = "SELECT req.requirement_id,"
+                    + "IF(req.req_plantype = 'ในแผน',pl.plan_name,req.requirement_name) AS requirement_name,"
+                    + "req.requirement_code,req.firstname,req.lastname,req.department,req.department2,req.position,req.req_plantype,req.unit,req.price,req.amount,req.total_price,req.status,req.req_type,req.detail,req.replace_id,req.agreement_id,req.date_po,req.date_limit,req.date_completed,req.m_date,req.expenses,req.money_source,req.created,req.updated,req.quotation1,quotation2,req.quotation3,req.file4,req.image,req.spec_file,req.plan_file,req.replace_id,req.date_plan,req.date_dt,req.date_st "
+                    + "FROM requirements req "
+                    + "LEFT JOIN plans pl ON req.requirement_name = pl.plan_id ";
 
                 if (param.text != 'undefined' && param.fields != 'undefined') {
-                    count += "WHERE {fields} LIKE '%{text}%'";
-                    count = count.replace('{fields}', param.fields);
+                    count += "WHERE pl.plan_name LIKE '%{text}%' OR req.requirement_name LIKE '%{text1}%' OR req.department2 LIKE '%{text2}%' OR req.req_plantype LIKE '%{text3}%' OR req.status LIKE '%{text4}%'";
                     count = count.replace('{text}', param.text);
+                    count = count.replace('{text1}', param.text);
+                    count = count.replace('{text2}', param.text);
+                    count = count.replace('{text3}', param.text);
+                    count = count.replace('{text4}', param.text);
                 }
                 console.log(count)
                 connection.query(count, (err, resu) => {
@@ -75,6 +81,7 @@ exports.findAll = (req, res, next) => {
         })
     })
 }
+
 
 exports.createReq = (req, res, next) => {
     var { body } = req
@@ -166,7 +173,7 @@ exports.updateReq = (req, res, next) => {
         price: body.price ? body.price : null,
         amount: body.amount ? body.amount : null,
         total_price: body.total_price ? body.total_price : null,
-        status: body.status ? body.status : null,
+        status: null,
         req_type: body.req_type ? body.req_type : null,
         detail: body.detail ? body.detail : null,
         quotation1: body.quotation1 ? body.quotation1 : null,

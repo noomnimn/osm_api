@@ -103,9 +103,9 @@ exports.findallpagination = (req, res, next) => {
         var sql = "SELECT * FROM plans ";
 
         if (param.text != 'undefined' && param.fields != 'undefined') {
-            sql += "WHERE {fields} LIKE '%{text}%' ";
-            sql = sql.replace('{fields}', param.fields);
+            sql += "WHERE plan_name LIKE '%{text}%' OR department2 LIKE '%{text2}%'";
             sql = sql.replace('{text}', param.text);
+            sql = sql.replace('{text2}', param.text);
         }
 
         sql += "ORDER BY plan_id DESC LIMIT {limit} OFFSET {offset}";
@@ -120,9 +120,9 @@ exports.findallpagination = (req, res, next) => {
                 var count = "SELECT * FROM plans ";
 
                 if (param.text != 'undefined' && param.fields != 'undefined') {
-                    count += "WHERE {fields} LIKE '%{text}%'";
-                    count = count.replace('{fields}', param.fields);
+                    count += "WHERE plan_name LIKE '%{text}%' OR department2 LIKE '%{text2}%'";
                     count = count.replace('{text}', param.text);
+                    count = count.replace('{text2}', param.text);
                 }
                 console.log(count)
                 connection.query(count, (err, resu) => {

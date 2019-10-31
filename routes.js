@@ -41,8 +41,9 @@ module.exports = function (app) {
     app.get('/api/v1/users/findallpagination/:limit/:offset/:sort_by/:fields/:text', users.findallpagination)
 
     // PLAN
+    app.get('/api/v1/plan/getDeptList', dept.findDeptList)
     app.get('/api/v1/plan/findall', plan.findAll)
-    app.get('/api/v1/plan/findallpagination/:limit/:offset/:sort_by/:fields/:text', plan.findallpagination)
+    app.get('/api/v1/plan/findallpagination/:limit/:offset/:text', plan.findallpagination)
     app.get('/api/v1/plan/getbyId/:id', plan.findPlanById)
     app.post('/api/v1/plan', plan.createPlan)
     app.delete('/api/v1/plan/:id', plan.deletePlan)
@@ -50,7 +51,7 @@ module.exports = function (app) {
 
     // Requirement
     app.get('/api/v1/requirement/getbyId/:id', requirement.findReqById)
-    app.get('/api/v1/requirement/findall/:limit/:offset/:sort_by/:fields/:text', requirement.findAll)
+    app.get('/api/v1/requirement/findall/:limit/:offset/:text', requirement.findAll)
     app.post('/api/v1/requirement', requirement.createReq)
     app.delete('/api/v1/requirement/:id', requirement.deleteReq)
     app.put('/api/v1/requirement/:id', requirement.updateReq)
