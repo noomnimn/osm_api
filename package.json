@@ -18,7 +18,7 @@
     "express-fileupload": "^1.1.6",
     "express-myconnection": "^1.0.4",
     "jwt-simple": "^0.5.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
